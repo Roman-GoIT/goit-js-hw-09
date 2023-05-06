@@ -1,7 +1,5 @@
 import flatpickr from 'flatpickr';
-import "flatpickr/dist/flatpickr.min.css";
-
-
+import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('[data-start]');
 const timer = document.querySelector('.timer');
@@ -13,7 +11,6 @@ const calendar = document.querySelector('#datetime-picker');
 
 // Button is disabled by default
 startBtn.disabled = true;
-
 
 // Options for "flatpickr"
 const options = {
@@ -29,44 +26,28 @@ const options = {
       startBtn.disabled = false;
       const currentTime = Date.now();
       const selectedDate = selectedDates[0].getTime();
-      const timeDifference = selectedDate - currentTime;
+      let timeDifference = selectedDate - currentTime;
+      startBtn.addEventListener('click', onStart);
+      function onStart() {
+        const timerId = setTimeout(function countDown() {
+          timeDifference -= 1000;
+          const { days, hours, minutes, seconds } = convertMs(timeDifference);
+         
+          dataDays.textContent = addLeadingZero(days);
+          dataHours.textContent = addLeadingZero(hours);
+          dataMinutes.textContent = addLeadingZero(minutes);
+          dataSeconds.textContent = addLeadingZero(seconds);
 
-       startBtn.addEventListener('click', onStart);
-
-        function onStart() {
-         setInterval((date) => {
-            const slDay = timeDifference.getDay();
-            const slHours = timeDifference.getHours();
-            const slMinutes = timeDifference.getMinutes();
-            const slSeconds = timeDifference.getSeconds();
-            
-    
-            dataDays.textContent = slDay;
-            dataHours.textContent = slHours;
-            dataMinutes.textContent = slMinutes;
-            dataSeconds.textContent = slSeconds;
-
-            const formatTime = `(${slDay.toString()}:${slHours
-                .toString()
-                }:${slMinutes
-                .toString()
-                }:${slSeconds.toString()})`;
-                function addLeadingZero(value) {
-                  formatTime.padStart(2, '0');
-                }
-          }, 1000);
-    };
+          if (timeDifference > 0) {
+            timerId = setTimeout(countDown, 1000);
+          }
+        }, 1000);
+      }
     }
   },
 };
-
 // flatpickr function
 const fp = flatpickr(calendar, options);
-
-//function pickedDate() {};
-
-
-
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -87,8 +68,11 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
+
+
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}*/
-
-
+console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
