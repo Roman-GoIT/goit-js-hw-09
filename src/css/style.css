@@ -1,0 +1,15 @@
+.field {
+display: inline-block;
+width: 60px;
+text-align: center;
+}
+
+.value {
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+.label {
+    font-variant-caps: all-small-caps;
+    font-size: small;
+}

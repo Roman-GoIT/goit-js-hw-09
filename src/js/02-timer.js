@@ -9,7 +9,6 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 const calendar = document.querySelector('#datetime-picker');
 
-// Button is disabled by default
 startBtn.disabled = true;
 
 // Options for "flatpickr"
@@ -28,18 +27,19 @@ const options = {
       const selectedDate = selectedDates[0].getTime();
       let timeDifference = selectedDate - currentTime;
       startBtn.addEventListener('click', onStart);
+
+      let timerId;
       function onStart() {
-        const timerId = setTimeout(function countDown() {
+        startBtn.disabled = true;
+        timerId = setTimeout(function countDown() {
           timeDifference -= 1000;
           const { days, hours, minutes, seconds } = convertMs(timeDifference);
-         
           dataDays.textContent = addLeadingZero(days);
           dataHours.textContent = addLeadingZero(hours);
           dataMinutes.textContent = addLeadingZero(minutes);
           dataSeconds.textContent = addLeadingZero(seconds);
-
           if (timeDifference > 0) {
-            timerId = setTimeout(countDown, 1000);
+            setTimeout(countDown, 1000);
           }
         }, 1000);
       }
@@ -71,7 +71,6 @@ function convertMs(ms) {
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
-
 
 console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
 console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
