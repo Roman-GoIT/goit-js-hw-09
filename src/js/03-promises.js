@@ -3,7 +3,7 @@ const form = document.querySelector('.form');
 form.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(evt) {
-  event.preventDefault();
+  evt.preventDefault();
   const { delay, step, amount } = evt.currentTarget.elements;
 
   if (delay.value < 0 || step.value < 0 || amount.value < 0) {
@@ -23,7 +23,7 @@ function onSubmitForm(evt) {
     }
   }
 
-  event.currentTarget.reset();
+  evt.currentTarget.reset();
 }
 
 function createPromise(position, delay) {
