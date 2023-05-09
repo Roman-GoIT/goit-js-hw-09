@@ -38,7 +38,7 @@ const options = {
           dataHours.textContent = addLeadingZero(hours);
           dataMinutes.textContent = addLeadingZero(minutes);
           dataSeconds.textContent = addLeadingZero(seconds);
-          if (timeDifference > 0) {
+          if (timeDifference > 1000) {
             setTimeout(countDown, 1000);
           }
         }, 1000);
